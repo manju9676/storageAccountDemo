@@ -24,13 +24,25 @@ steps:
     ls -la $(Build.SourcesDirectory)/files
   displayName: 'Verify source files'
 
-- task: AzureFileCopy@6
+# - task: AzureFileCopy@6
+#   inputs:
+#     SourcePath: '$(Build.SourcesDirectory)/$(sourceFolder)'
+#     azureSubscription: 'Azure subscription 1(ddc45bc2-7a34-4943-8d1b-4aa187194509)'
+#     Destination: 'AzureBlob'
+#     storage: 'myblobstoragemanju9676'
+#     ContainerName: 'samplefiles'
+#     BlobPrefix: 'myfiles'
+
+- task: AzureCLI@2
   inputs:
-    SourcePath: '$(Build.SourcesDirectory)/$(sourceFolder)'
     azureSubscription: 'Azure subscription 1(ddc45bc2-7a34-4943-8d1b-4aa187194509)'
-    Destination: 'AzureBlob'
-    storage: 'myblobstoragemanju9676'
-    ContainerName: 'samplefiles'
-    BlobPrefix: 'myfiles'
+    scriptType: bash
+    scriptLocation: inlineScript
+    inlineScript: |
+      az storage blob upload-batch \
+        --account-name myblobstoragemanju9676 \
+        --destination samplefiles \
+        --source $(Build.SourcesDirectory)/files \
+        --auth-mode login
 
 
