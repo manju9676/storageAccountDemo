@@ -9,11 +9,20 @@ trigger:
 pool:
   vmImage: ubuntu-latest
 
+variables:
+  sourceFolder: 'files'
+
+
 steps:
 - script: echo Hello, world!
   displayName: 'Run a one-line script'
 
-- script: |
-    echo Add other tasks to build, test, and deploy your project.
-    echo See https://aka.ms/yaml
-  displayName: 'Run a multi-line script'
+- task: AzureFileCopy@6
+  inputs:
+    SourcePath: '$(Build.SourcesDirectory)/$(sourceFolder)'
+    azureSubscription: 'Azure subscription 1(ddc45bc2-7a34-4943-8d1b-4aa187194509)'
+    Destination: 'AzureBlob'
+    storage: 'myblobstoragemanju9676'
+    ContainerName: 'sampleFiles'
+
+
