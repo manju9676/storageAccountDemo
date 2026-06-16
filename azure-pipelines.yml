@@ -42,7 +42,7 @@ steps:
       az storage blob upload-batch \
         --account-name myblobstoragemanju9676 \
         --destination samplefiles \
-        --source $(Build.SourcesDirectory)/files \
+        --source $(Build.SourcesDirectory)/$(sourceFolder) \
         --auth-mode login
 
 
