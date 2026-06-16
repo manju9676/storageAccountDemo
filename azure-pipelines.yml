@@ -24,5 +24,6 @@ steps:
     Destination: 'AzureBlob'
     storage: 'myblobstoragemanju9676'
     ContainerName: 'samplefiles'
+    BlobPrefix: ''
 
 
