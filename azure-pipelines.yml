@@ -11,6 +11,8 @@ pool:
 
 variables:
   sourceFolder: 'files'
+  storageAccountName: 'myblobstoragemanju9676'
+  containerName: 'samplefiles'
 
 
 steps:
@@ -40,8 +42,8 @@ steps:
     scriptLocation: inlineScript
     inlineScript: |
       az storage blob upload-batch \
-        --account-name myblobstoragemanju9676 \
-        --destination samplefiles \
+        --account-name $(storageAccountName) \
+        --destination $(containerName) \
         --source $(Build.SourcesDirectory)/$(sourceFolder) \
         --auth-mode login
 
