@@ -23,7 +23,7 @@ steps:
     echo "Build.SourcesDirectory=$(Build.SourcesDirectory)"
     ls -la
     ls -la $(Build.SourcesDirectory)
-    ls -la $(Build.SourcesDirectory)/files
+    ls -la $(Build.SourcesDirectory)/$(sourceFolder)
   displayName: 'Verify source files'
 
 # - task: AzureFileCopy@6
