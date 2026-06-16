@@ -1,8 +1,3 @@
-# Starter pipeline
-# Start with a minimal pipeline that you can customize to build and deploy your code.
-# Add steps that build, run tests, deploy, and more:
-# https://aka.ms/yaml
-
 trigger:
 - main
 
@@ -14,37 +9,38 @@ variables:
   storageAccountName: 'myblobstoragemanju9676'
   containerName: 'samplefiles'
 
-
 steps:
-- script: echo Hello, world!
-  displayName: 'Run a one-line script'
+
+- checkout: self
 
 - script: |
     echo "Build.SourcesDirectory=$(Build.SourcesDirectory)"
-    ls -la
-    ls -la $(Build.SourcesDirectory)
-    ls -la $(Build.SourcesDirectory)/$(sourceFolder)
+    dir "$(Build.SourcesDirectory)"
+    dir "$(Build.SourcesDirectory)\$(sourceFolder)"
   displayName: 'Verify source files'
 
-# - task: AzureFileCopy@6
-#   inputs:
-#     SourcePath: '$(Build.SourcesDirectory)/$(sourceFolder)'
-#     azureSubscription: 'Azure subscription 1(ddc45bc2-7a34-4943-8d1b-4aa187194509)'
-#     Destination: 'AzureBlob'
-#     storage: 'myblobstoragemanju9676'
-#     ContainerName: 'samplefiles'
-#     BlobPrefix: 'myfiles'
-
 - task: AzureCLI@2
+  displayName: 'Upload files to Blob Storage'
   inputs:
     azureSubscription: 'Azure subscription 1(ddc45bc2-7a34-4943-8d1b-4aa187194509)'
     scriptType: bash
     scriptLocation: inlineScript
     inlineScript: |
+      SOURCE_DIR="$(Build.SourcesDirectory)/$(sourceFolder)"
+
+      echo "Source directory: $SOURCE_DIR"
+
+      if [ ! -d "$SOURCE_DIR" ]; then
+        echo "Directory does not exist: $SOURCE_DIR"
+        pwd
+        ls -la
+        exit 1
+      fi
+
+      ls -la "$SOURCE_DIR"
+
       az storage blob upload-batch \
-        --account-name $(storageAccountName) \
-        --destination $(containerName) \
-        --source $(Build.SourcesDirectory)/$(sourceFolder) \
+        --account-name "$(storageAccountName)" \
+        --destination "$(containerName)" \
+        --source "$SOURCE_DIR" \
         --auth-mode login
-
-
