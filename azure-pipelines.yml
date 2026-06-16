@@ -23,6 +23,6 @@ steps:
     azureSubscription: 'Azure subscription 1(ddc45bc2-7a34-4943-8d1b-4aa187194509)'
     Destination: 'AzureBlob'
     storage: 'myblobstoragemanju9676'
-    ContainerName: 'sampleFiles'
+    ContainerName: 'samplefiles'
 
 
