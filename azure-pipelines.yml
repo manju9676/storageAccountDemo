@@ -21,6 +21,7 @@ steps:
   inputs:
     SourcePath: '$(Build.SourcesDirectory)/$(sourceFolder)'
     azureSubscription: 'Azure subscription 1(ddc45bc2-7a34-4943-8d1b-4aa187194509)'
+    scriptType: 'bash'
     Destination: 'AzureBlob'
     storage: 'myblobstoragemanju9676'
     ContainerName: 'sampleFiles'
